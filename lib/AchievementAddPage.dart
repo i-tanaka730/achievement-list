@@ -41,6 +41,7 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
             Text(_text, style: TextStyle(color: Colors.blue)),
             // テキスト入力
             TextField(
+              autofocus: true,
               controller: TextEditingController(text: _text), //ここに初期値
               // 入力されたテキストの値を受け取る（valueが入力されたテキスト）
               onChanged: (String value) {
