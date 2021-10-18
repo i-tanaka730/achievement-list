@@ -4,22 +4,21 @@ import 'package:flutter/material.dart';
  * できたこと追加画面。
  */
 class AchievementAddPage extends StatefulWidget {
-
-  final String? targetAchievement; 
+  final String? targetAchievement;
   AchievementAddPage(this.targetAchievement);
 
   @override
-  _AchievementAddPageState createState() => _AchievementAddPageState(targetAchievement);
+  _AchievementAddPageState createState() =>
+      _AchievementAddPageState(targetAchievement);
 }
 
 /**
  * できたこと追加画面の状態。
  */
 class _AchievementAddPageState extends State<AchievementAddPage> {
-
   String _text = "";
 
-  _AchievementAddPageState(String? text){
+  _AchievementAddPageState(String? text) {
     _text = text ?? "";
   }
 
@@ -29,7 +28,7 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "リスト追加",
+          "できたこと追加",
         ),
       ),
       body: Container(
@@ -42,11 +41,11 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
             Text(_text, style: TextStyle(color: Colors.blue)),
             // テキスト入力
             TextField(
-              controller: TextEditingController(text: _text),  //ここに初期値
+              controller: TextEditingController(text: _text), //ここに初期値
               // 入力されたテキストの値を受け取る（valueが入力されたテキスト）
               onChanged: (String value) {
                 // データが変更したことを知らせる（画面を更新する）
-                  _text = value;
+                _text = value;
               },
             ),
             const SizedBox(height: 8),
@@ -68,13 +67,16 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
               // 横幅いっぱいに広げる
               width: double.infinity,
               // キャンセルボタン
-              child: TextButton(
+              child: ElevatedButton(
                 // ボタンをクリックした時の処理
                 onPressed: () {
                   // "pop"で前の画面に戻る
                   Navigator.of(context).pop();
                 },
-                child: Text('キャンセル'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red,
+                ),
+                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
               ),
             ),
           ],

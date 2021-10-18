@@ -16,4 +16,3 @@ class AchievementListApp extends StatelessWidget {
     );
   }
 }
-

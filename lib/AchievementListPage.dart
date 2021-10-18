@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'AchievementAddPage.dart';
 
 /**
@@ -14,36 +15,57 @@ class AchievementListPage extends StatefulWidget {
  * できたことリスト画面の状態。
  */
 class _AchievementListPageState extends State<AchievementListPage> {
-
   // できたことリストのデータ
-  List<String> _todoList = ["test1", "test2"];
+  List<String> _todoList = [];
+  // 保存時のキー
+  final String _saveKey = "AchievementList";
 
-  // できたこと追加画面に遷移し、入力された値をリストに追加する
+  // 追加
   void addAchievement() async {
-
-    String? achievement = await createAchievement(null);
-    if (achievement == null) {
-      return;
-    }
+    var achievement = await createAchievement();
 
     setState(() {
       _todoList.add(achievement);
     });
+
+    saveAchievementList();
   }
 
+  // 更新
   void updateAchievement(int index) async {
     var achievement = await createAchievement(_todoList[index]);
-    if (achievement == null) {
-      return;
-    }
 
     setState(() {
       _todoList[index] = achievement;
     });
+
+    saveAchievementList();
   }
 
-  Future<String> createAchievement(String? targetAchievement) async
-  {
+  // 削除
+  void removeAchievement(int index) {
+    setState(() {
+      _todoList.removeAt(index);
+    });
+
+    saveAchievementList();
+  }
+
+  // 保存
+  void saveAchievementList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_saveKey, _todoList);
+  }
+
+  // 読込
+  void loadAchievementList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _todoList = prefs.getStringList(_saveKey) ?? [];
+    });
+  }
+
+  Future<String> createAchievement([String? targetAchievement]) async {
     String achievement = await Navigator.of(context).push(
       MaterialPageRoute(builder: (context) {
         return AchievementAddPage(targetAchievement);
@@ -53,14 +75,19 @@ class _AchievementListPageState extends State<AchievementListPage> {
     return achievement;
   }
 
-  // ウィジェット構築
+  @override
+  void initState() {
+    super.initState();
+    loadAchievementList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "リスト一覧",
+          "できたことリスト",
         ),
       ),
 
@@ -87,9 +114,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
                   color: Colors.red,
                   icon: Icons.delete,
                   onTap: () {
-                    setState(() {
-                      _todoList.removeAt(index);
-                    });
+                    removeAchievement(index);
                   },
                 )
               ],
