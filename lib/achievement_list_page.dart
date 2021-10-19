@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'AchievementAddPage.dart';
+import 'achievement_add_page.dart';
 
-/**
- * できたことリスト画面。
- */
 class AchievementListPage extends StatefulWidget {
+
+  const AchievementListPage({Key? key}) : super(key: key);
+
   @override
   _AchievementListPageState createState() => _AchievementListPageState();
 }
 
-/**
- * できたことリスト画面の状態。
- */
 class _AchievementListPageState extends State<AchievementListPage> {
-  // できたことリストのデータ
+
   List<String> _todoList = [];
-  // 保存時のキー
   final String _saveKey = "AchievementList";
 
   // 追加
@@ -68,7 +64,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
   Future<String> createAchievement([String? targetAchievement]) async {
     String achievement = await Navigator.of(context).push(
       MaterialPageRoute(builder: (context) {
-        return AchievementAddPage(targetAchievement);
+        return AchievementAddPage(targetAchievement:targetAchievement);
       }),
     );
 
@@ -86,7 +82,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "できたことリスト",
         ),
       ),
@@ -97,7 +93,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
         itemBuilder: (context, index) {
           return Slidable(
               actionExtentRatio: 0.2,
-              actionPane: SlidableScrollActionPane(),
+              actionPane: const SlidableScrollActionPane(),
               actions: [
                 IconSlideAction(
                   caption: '編集',
@@ -119,8 +115,8 @@ class _AchievementListPageState extends State<AchievementListPage> {
                 )
               ],
               child: Container(
-                  padding: EdgeInsets.only(left: 20),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.only(left: 20),
+                  decoration: const BoxDecoration(
                       border: Border(
                           bottom: BorderSide(width: 1.0, color: Colors.grey))),
                   child: ListTile(
@@ -133,7 +129,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
         onPressed: () {
           addAchievement();
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

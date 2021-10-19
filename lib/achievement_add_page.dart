@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 
-/**
- * できたこと追加画面。
- */
 class AchievementAddPage extends StatefulWidget {
   final String? targetAchievement;
-  AchievementAddPage(this.targetAchievement);
+  const AchievementAddPage({Key? key, this.targetAchievement}) : super(key: key);
 
   @override
-  _AchievementAddPageState createState() =>
-      _AchievementAddPageState(targetAchievement);
+  _AchievementAddPageState createState() => _AchievementAddPageState();
 }
 
-/**
- * できたこと追加画面の状態。
- */
 class _AchievementAddPageState extends State<AchievementAddPage> {
-  String _text = "";
 
-  _AchievementAddPageState(String? text) {
-    _text = text ?? "";
+  late String _achievement;
+  late String _caption;
+
+  @override
+  void initState() {
+    super.initState();
+    _achievement = widget.targetAchievement ?? "";
+    _caption = widget.targetAchievement != null ? "編集" : "追加";
   }
 
   @override
@@ -27,45 +25,34 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          "できたこと追加",
-        ),
+        title: Text("できたこと$_caption"),
       ),
       body: Container(
         // 余白を付ける
-        padding: EdgeInsets.all(64),
+        padding: const EdgeInsets.all(64),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // 入力されたテキストを表示
-            Text(_text, style: TextStyle(color: Colors.blue)),
-            // テキスト入力
             TextField(
               autofocus: true,
-              controller: TextEditingController(text: _text), //ここに初期値
-              // 入力されたテキストの値を受け取る（valueが入力されたテキスト）
+              controller: TextEditingController(text: _achievement),
               onChanged: (String value) {
-                // データが変更したことを知らせる（画面を更新する）
-                _text = value;
+                _achievement = value;
               },
             ),
             const SizedBox(height: 8),
             Container(
-              // 横幅いっぱいに広げる
               width: double.infinity,
               // リスト追加ボタン
               child: ElevatedButton(
                 onPressed: () {
-                  // "pop"で前の画面に戻る
-                  // "pop"の引数から前の画面にデータを渡す
-                  Navigator.of(context).pop(_text);
+                  Navigator.of(context).pop(_achievement);
                 },
-                child: Text('リスト追加', style: TextStyle(color: Colors.white)),
+                child: Text(_caption, style: const TextStyle(color: Colors.white)),
               ),
             ),
             const SizedBox(height: 8),
             Container(
-              // 横幅いっぱいに広げる
               width: double.infinity,
               // キャンセルボタン
               child: ElevatedButton(
@@ -77,7 +64,7 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
                 ),
-                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
+                child: const Text('キャンセル', style: TextStyle(color: Colors.white)),
               ),
             ),
           ],
