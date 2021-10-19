@@ -31,6 +31,8 @@ dependencies:
   flutter_slidable:
   # データ保存
   shared_preferences:
+  # Flutter Linter
+  flutter_lints:
 
 # ---------- 開発時用途のライブラリの利用 ----------
 
