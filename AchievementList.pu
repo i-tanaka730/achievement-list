@@ -1,0 +1,15 @@
+@startuml
+
+
+AchievementListApp *-- AchievementListPage
+AchievementListPage *-- _AchievementListPageState
+AchievementAddPage *-- _AchievementAddPageState
+_AchievementListPageState --> AchievementAddPage
+
+StatelessWidget <|-- AchievementListApp
+StatefulWidget <|-- AchievementListPage
+StatefulWidget <|-- AchievementAddPage
+State <|-- _AchievementListPageState
+State <|-- _AchievementAddPageState
+
+@enduml
