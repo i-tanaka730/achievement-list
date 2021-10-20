@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'achievement_add_page.dart';
+import 'achievement_list_storage.dart';
 
 class AchievementListPage extends StatefulWidget {
 
@@ -13,52 +13,38 @@ class AchievementListPage extends StatefulWidget {
 
 class _AchievementListPageState extends State<AchievementListPage> {
 
-  List<String> _todoList = [];
-  final String _saveKey = "AchievementList";
+  List<String> _achievementList = [];
+  final AchievementListStorage _storage = AchievementListStorage();
 
   // 追加
   void addAchievement() async {
     var achievement = await createAchievement();
 
     setState(() {
-      _todoList.add(achievement);
+      _achievementList.add(achievement);
     });
 
-    saveAchievementList();
+    _storage.save(_achievementList);
   }
 
   // 更新
   void updateAchievement(int index) async {
-    var achievement = await createAchievement(_todoList[index]);
+    var achievement = await createAchievement(_achievementList[index]);
 
     setState(() {
-      _todoList[index] = achievement;
+      _achievementList[index] = achievement;
     });
 
-    saveAchievementList();
+    _storage.save(_achievementList);
   }
 
   // 削除
   void removeAchievement(int index) {
     setState(() {
-      _todoList.removeAt(index);
+      _achievementList.removeAt(index);
     });
 
-    saveAchievementList();
-  }
-
-  // 保存
-  void saveAchievementList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(_saveKey, _todoList);
-  }
-
-  // 読込
-  void loadAchievementList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _todoList = prefs.getStringList(_saveKey) ?? [];
-    });
+    _storage.save(_achievementList);
   }
 
   Future<String> createAchievement([String? targetAchievement]) async {
@@ -74,7 +60,13 @@ class _AchievementListPageState extends State<AchievementListPage> {
   @override
   void initState() {
     super.initState();
+
     loadAchievementList();
+  }
+
+  void loadAchievementList() async {
+    _achievementList = await _storage.load();
+    setState(() {});
   }
 
   @override
@@ -87,9 +79,8 @@ class _AchievementListPageState extends State<AchievementListPage> {
         ),
       ),
 
-      // データを元にListViewを作成
       body: ListView.builder(
-        itemCount: _todoList.length,
+        itemCount: _achievementList.length,
         itemBuilder: (context, index) {
           return Slidable(
               actionExtentRatio: 0.2,
@@ -120,7 +111,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
                       border: Border(
                           bottom: BorderSide(width: 1.0, color: Colors.grey))),
                   child: ListTile(
-                    title: Text(_todoList[index]),
+                    title: Text(_achievementList[index]),
                   )));
         },
       ),
