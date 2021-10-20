@@ -106,13 +106,25 @@ class _AchievementListPageState extends State<AchievementListPage> {
                 )
               ],
               child: Container(
-                  padding: const EdgeInsets.only(left: 20),
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(width: 1.0, color: Colors.grey))),
-                  child: ListTile(
-                    title: Text(_achievementList[index]),
-                  )));
+                padding: const EdgeInsets.only(left: 20),
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(width: 1.0, color: Colors.grey)
+                  )
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.calendar_today),
+                    const Text('2021/10/21'),
+                    Expanded(
+                      child:ListTile(
+                        title: Text(_achievementList[index]),
+                      ),
+                    )
+                  ], // 子ウィジェット
+                )
+              )
+            );
         },
       ),
 
