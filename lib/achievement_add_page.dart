@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'achievement.dart';
 
 class AchievementAddPage extends StatefulWidget {
-  final String? targetAchievement;
+  final Achievement? targetAchievement;
   const AchievementAddPage({Key? key, this.targetAchievement}) : super(key: key);
 
   @override
@@ -10,14 +11,27 @@ class AchievementAddPage extends StatefulWidget {
 
 class _AchievementAddPageState extends State<AchievementAddPage> {
 
-  late String _achievement;
+  late Achievement? _achievement;
+  late String _title;
+  late String _detail; 
   late String _caption;
+
+  Achievement createAchievement(String title, String detail) {
+    return Achievement(title, detail, DateTime.now());
+  }
+
+  void updateAchievement(Achievement achievement, String title, String detail) {
+    achievement.title = title;
+    achievement.detail = detail;
+  }
 
   @override
   void initState() {
     super.initState();
-    _achievement = widget.targetAchievement ?? "";
-    _caption = widget.targetAchievement != null ? "編集" : "追加";
+    _achievement = widget.targetAchievement;
+    _title = _achievement?.title ?? "";
+    _detail = _achievement?.detail ?? "";
+    _caption = _achievement != null ? "編集" : "追加";
   }
 
   @override
@@ -28,24 +42,34 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
         title: Text("できたこと$_caption"),
       ),
       body: Container(
-        // 余白を付ける
         padding: const EdgeInsets.all(64),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
               autofocus: true,
-              controller: TextEditingController(text: _achievement),
+              controller: TextEditingController(text: _title),
               onChanged: (String value) {
-                _achievement = value;
+                _title = value;
+              },
+            ),
+            TextField(
+              controller: TextEditingController(text: _detail),
+              onChanged: (String value) {
+                _detail = value;
               },
             ),
             const SizedBox(height: 8),
             Container(
               width: double.infinity,
-              // リスト追加ボタン
+              // リスト追加・編集ボタン
               child: ElevatedButton(
                 onPressed: () {
+                  if (_achievement != null) {
+                    updateAchievement(_achievement!, _title, _detail);
+                  } else {
+                    _achievement = createAchievement(_title, _detail);
+                  }
                   Navigator.of(context).pop(_achievement);
                 },
                 child: Text(_caption, style: const TextStyle(color: Colors.white)),
@@ -56,9 +80,7 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
               width: double.infinity,
               // キャンセルボタン
               child: ElevatedButton(
-                // ボタンをクリックした時の処理
                 onPressed: () {
-                  // "pop"で前の画面に戻る
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(

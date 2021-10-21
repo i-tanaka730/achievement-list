@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'achievement_add_page.dart';
-import 'achievement_list_storage.dart';
+import 'achievement_storage.dart';
+import 'achievement.dart';
 
 class AchievementListPage extends StatefulWidget {
 
@@ -13,8 +14,8 @@ class AchievementListPage extends StatefulWidget {
 
 class _AchievementListPageState extends State<AchievementListPage> {
 
-  List<String> _achievementList = [];
-  final AchievementListStorage _storage = AchievementListStorage();
+  List<Achievement> _achievementList = [];
+  final AchievementStorage _storage = AchievementStorage();
 
   // 追加
   void addAchievement() async {
@@ -47,8 +48,8 @@ class _AchievementListPageState extends State<AchievementListPage> {
     _storage.save(_achievementList);
   }
 
-  Future<String> createAchievement([String? targetAchievement]) async {
-    String achievement = await Navigator.of(context).push(
+  Future<Achievement> createAchievement([Achievement? targetAchievement]) async {
+    Achievement achievement = await Navigator.of(context).push(
       MaterialPageRoute(builder: (context) {
         return AchievementAddPage(targetAchievement:targetAchievement);
       }),
@@ -115,10 +116,10 @@ class _AchievementListPageState extends State<AchievementListPage> {
                 child: Row(
                   children: [
                     const Icon(Icons.calendar_today),
-                    const Text('2021/10/21'),
+                    Text(_achievementList[index].createDate.toString()),
                     Expanded(
                       child:ListTile(
-                        title: Text(_achievementList[index]),
+                        title: Text(_achievementList[index].title),
                       ),
                     )
                   ], // 子ウィジェット
