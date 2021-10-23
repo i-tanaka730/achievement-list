@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'achievement.dart';
+import 'package:intl/intl.dart';
 
 class AchievementAddPage extends StatefulWidget {
   final Achievement? targetAchievement;
-  const AchievementAddPage({Key? key, this.targetAchievement}) : super(key: key);
+  const AchievementAddPage({Key? key, this.targetAchievement})
+      : super(key: key);
 
   @override
   _AchievementAddPageState createState() => _AchievementAddPageState();
 }
 
 class _AchievementAddPageState extends State<AchievementAddPage> {
-
   late Achievement? _achievement;
   late String _title;
-  late String _detail; 
+  late String _detail;
   late String _caption;
 
   Achievement createAchievement(String title, String detail) {
-    return Achievement(title, detail, DateTime.now());
+    var outputFormat = DateFormat('yyyy/MM/dd HH:mm');
+    var date = outputFormat.format(DateTime.now());
+    return Achievement(title, detail, date);
   }
 
   void updateAchievement(Achievement achievement, String title, String detail) {
@@ -31,7 +34,7 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
     _achievement = widget.targetAchievement;
     _title = _achievement?.title ?? "";
     _detail = _achievement?.detail ?? "";
-    _caption = _achievement != null ? "編集" : "追加";
+    _caption = _achievement != null ? "更新" : "追加";
   }
 
   @override
@@ -45,7 +48,9 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
         padding: const EdgeInsets.all(64),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            const Text("タイトル", textAlign: TextAlign.left),
             TextField(
               autofocus: true,
               controller: TextEditingController(text: _title),
@@ -53,7 +58,11 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
                 _title = value;
               },
             ),
+            const Text("詳細"),
             TextField(
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              minLines: 3,
               controller: TextEditingController(text: _detail),
               onChanged: (String value) {
                 _detail = value;
@@ -72,7 +81,8 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
                   }
                   Navigator.of(context).pop(_achievement);
                 },
-                child: Text(_caption, style: const TextStyle(color: Colors.white)),
+                child:
+                    Text(_caption, style: const TextStyle(color: Colors.white)),
               ),
             ),
             const SizedBox(height: 8),
@@ -86,7 +96,8 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
                 ),
-                child: const Text('キャンセル', style: TextStyle(color: Colors.white)),
+                child:
+                    const Text('キャンセル', style: TextStyle(color: Colors.white)),
               ),
             ),
           ],

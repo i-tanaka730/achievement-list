@@ -33,6 +33,8 @@ dependencies:
   shared_preferences:
   # Flutter Linter
   flutter_lints:
+  #DataFormat
+  intl:
 
 # ---------- 開発時用途のライブラリの利用 ----------
 

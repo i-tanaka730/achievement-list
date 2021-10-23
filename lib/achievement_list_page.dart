@@ -5,7 +5,6 @@ import 'achievement_storage.dart';
 import 'achievement.dart';
 
 class AchievementListPage extends StatefulWidget {
-
   const AchievementListPage({Key? key}) : super(key: key);
 
   @override
@@ -13,7 +12,6 @@ class AchievementListPage extends StatefulWidget {
 }
 
 class _AchievementListPageState extends State<AchievementListPage> {
-
   List<Achievement> _achievementList = [];
   final AchievementStorage _storage = AchievementStorage();
 
@@ -48,10 +46,11 @@ class _AchievementListPageState extends State<AchievementListPage> {
     _storage.save(_achievementList);
   }
 
-  Future<Achievement> createAchievement([Achievement? targetAchievement]) async {
+  Future<Achievement> createAchievement(
+      [Achievement? targetAchievement]) async {
     Achievement achievement = await Navigator.of(context).push(
       MaterialPageRoute(builder: (context) {
-        return AchievementAddPage(targetAchievement:targetAchievement);
+        return AchievementAddPage(targetAchievement: targetAchievement);
       }),
     );
 
@@ -79,7 +78,6 @@ class _AchievementListPageState extends State<AchievementListPage> {
           "できたことリスト",
         ),
       ),
-
       body: ListView.builder(
         itemCount: _achievementList.length,
         itemBuilder: (context, index) {
@@ -107,28 +105,23 @@ class _AchievementListPageState extends State<AchievementListPage> {
                 )
               ],
               child: Container(
-                padding: const EdgeInsets.only(left: 20),
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(width: 1.0, color: Colors.grey)
-                  )
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.calendar_today),
-                    Text(_achievementList[index].createDate.toString()),
-                    Expanded(
-                      child:ListTile(
-                        title: Text(_achievementList[index].title),
-                      ),
-                    )
-                  ], // 子ウィジェット
-                )
-              )
-            );
+                  padding: const EdgeInsets.only(left: 20),
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(width: 1.0, color: Colors.grey))),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.calendar_today),
+                      Text(_achievementList[index].createDate.toString()),
+                      Expanded(
+                        child: ListTile(
+                          title: Text(_achievementList[index].title),
+                        ),
+                      )
+                    ],
+                  )));
         },
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           addAchievement();
