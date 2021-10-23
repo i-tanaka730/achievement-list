@@ -66,6 +66,18 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
             const Text("タイトル", textAlign: TextAlign.left),
             TextField(
               autofocus: true,
+              decoration: const InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
               controller: TextEditingController(text: _title),
               onChanged: (String value) {
                 _title = value;
@@ -76,6 +88,18 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
               keyboardType: TextInputType.multiline,
               maxLines: null,
               minLines: 3,
+              decoration: const InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
               controller: TextEditingController(text: _detail),
               onChanged: (String value) {
                 _detail = value;
