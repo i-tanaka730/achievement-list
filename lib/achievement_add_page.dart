@@ -16,16 +16,25 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
   late String _title;
   late String _detail;
   late String _caption;
+  late String _createDate;
+  late String _updateDate;
 
   Achievement createAchievement(String title, String detail) {
-    var outputFormat = DateFormat('yyyy/MM/dd HH:mm');
-    var date = outputFormat.format(DateTime.now());
-    return Achievement(title, detail, date);
+    var date = getFormattedDate();
+    return Achievement(title, detail, date, date);
   }
 
   void updateAchievement(Achievement achievement, String title, String detail) {
     achievement.title = title;
     achievement.detail = detail;
+    var date = getFormattedDate();
+    achievement.updateDate = date;
+  }
+
+  String getFormattedDate() {
+    var outputFormat = DateFormat('yyyy/MM/dd HH:mm');
+    var dateTime = outputFormat.format(DateTime.now());
+    return dateTime;
   }
 
   @override
@@ -35,6 +44,8 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
     _title = _achievement?.title ?? "";
     _detail = _achievement?.detail ?? "";
     _caption = _achievement != null ? "更新" : "追加";
+    _createDate = _achievement?.createDate ?? "-";
+    _updateDate = _achievement?.updateDate ?? "-";
   }
 
   @override
@@ -50,6 +61,8 @@ class _AchievementAddPageState extends State<AchievementAddPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Text("作成日：$_createDate", textAlign: TextAlign.left),
+            Text("更新日：$_updateDate", textAlign: TextAlign.left),
             const Text("タイトル", textAlign: TextAlign.left),
             TextField(
               autofocus: true,
