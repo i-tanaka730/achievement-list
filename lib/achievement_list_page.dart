@@ -104,22 +104,13 @@ class _AchievementListPageState extends State<AchievementListPage> {
                 )
               ],
               child: Container(
-                  padding: const EdgeInsets.only(left: 20),
-                  decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1.0, color: Colors.grey))),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ListTile(
-                          title: Text(_achievementList[index].title),
-                          subtitle: Text(_achievementList[index].detail),
-                        ),
-                      ),
-                      const Icon(Icons.star),
-                      Text(_achievementList[index].isImportant ? "完了" : "未完了"),
-                      const Icon(Icons.access_time),
-                      Text(_achievementList[index].createDate.toString()),
-                    ],
-                  )));
+                decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
+                child: ListTile(
+                  title: Text(_achievementList[index].title),
+                  subtitle: Text(_achievementList[index].detail),
+                  trailing: Text(_achievementList[index].isImportant ? "完了" : "未完了"),
+                ),
+              ));
         },
       ),
       floatingActionButton: FloatingActionButton(
