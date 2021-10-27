@@ -65,8 +65,9 @@ class _AchievementListPageState extends State<AchievementListPage> {
                   color: Colors.red,
                   icon: Icons.delete,
                   onTap: () {
-                    _store.removeAchievement(index);
-                    setState(() {});
+                    setState(() {
+                      _store.removeAchievement(index);
+                    });
                   },
                 )
               ],
