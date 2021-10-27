@@ -12,58 +12,26 @@ class AchievementListPage extends StatefulWidget {
 }
 
 class _AchievementListPageState extends State<AchievementListPage> {
-  List<Achievement> _achievementList = [];
   final AchievementStore _store = AchievementStore();
 
-  // 追加
-  void addAchievement() async {
-    var achievement = await createAchievement();
-
-    setState(() {
-      _achievementList.add(achievement);
-    });
-
-    _store.save(_achievementList);
-  }
-
-  // 更新
-  void updateAchievement(int index) async {
-    await createAchievement(_achievementList[index]);
-
-    setState(() {});
-
-    _store.save(_achievementList);
-  }
-
-  // 削除
-  void removeAchievement(int index) {
-    setState(() {
-      _achievementList.removeAt(index);
-    });
-
-    _store.save(_achievementList);
-  }
-
-  Future<Achievement> createAchievement([Achievement? targetAchievement]) async {
-    Achievement achievement = await Navigator.of(context).push(
+  void pushAchievementInputPage([Achievement? targetAchievement]) async {
+    await Navigator.of(context).push(
       MaterialPageRoute(builder: (context) {
         return AchievementInputPage(targetAchievement: targetAchievement);
       }),
     );
-
-    return achievement;
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
 
-    loadAchievementList();
-  }
-
-  void loadAchievementList() async {
-    _achievementList = await _store.load();
-    setState(() {});
+    Future(() async {
+      setState(() {
+        _store.load();
+      });
+    });
   }
 
   @override
@@ -76,7 +44,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
         ),
       ),
       body: ListView.builder(
-        itemCount: _achievementList.length,
+        itemCount: _store.countAchievementList(),
         itemBuilder: (context, index) {
           return Slidable(
               actionExtentRatio: 0.2,
@@ -87,7 +55,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
                   color: Colors.yellow,
                   icon: Icons.edit,
                   onTap: () {
-                    updateAchievement(index);
+                    pushAchievementInputPage(_store.findByIndex(index));
                   },
                 )
               ],
@@ -97,23 +65,24 @@ class _AchievementListPageState extends State<AchievementListPage> {
                   color: Colors.red,
                   icon: Icons.delete,
                   onTap: () {
-                    removeAchievement(index);
+                    _store.removeAchievement(index);
+                    setState(() {});
                   },
                 )
               ],
               child: Container(
                 decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
                 child: ListTile(
-                  title: Text(_achievementList[index].title),
-                  subtitle: Text(_achievementList[index].detail),
-                  trailing: Text(_achievementList[index].isImportant ? "完了" : "未完了"),
+                  title: Text(_store.findByIndex(index).title),
+                  subtitle: Text(_store.findByIndex(index).detail),
+                  trailing: Text(_store.findByIndex(index).isImportant ? "完了" : "未完了"),
                 ),
               ));
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addAchievement();
+          pushAchievementInputPage();
         },
         child: const Icon(Icons.add),
       ),

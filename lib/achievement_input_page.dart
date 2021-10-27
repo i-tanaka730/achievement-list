@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'achievement.dart';
-import 'package:intl/intl.dart';
+import 'achievement_store.dart';
 
 class AchievementInputPage extends StatefulWidget {
   final Achievement? targetAchievement;
@@ -18,25 +18,6 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
   late bool _isImportant;
   late String _createDate;
   late String _updateDate;
-
-  Achievement createAchievement(String title, String detail, bool isImportant) {
-    var date = getFormattedDate();
-    return Achievement(title, detail, isImportant, date, date);
-  }
-
-  void updateAchievement(Achievement achievement, String title, String detail, bool isImportant) {
-    achievement.title = title;
-    achievement.detail = detail;
-    achievement.isImportant = isImportant;
-    var date = getFormattedDate();
-    achievement.updateDate = date;
-  }
-
-  String getFormattedDate() {
-    var outputFormat = DateFormat('yyyy/MM/dd HH:mm');
-    var dateTime = outputFormat.format(DateTime.now());
-    return dateTime;
-  }
 
   @override
   void initState() {
@@ -123,9 +104,9 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_achievement != null) {
-                    updateAchievement(_achievement!, _title, _detail, _isImportant);
+                    AchievementStore().updateAchievement(_achievement!, _title, _detail, _isImportant);
                   } else {
-                    _achievement = createAchievement(_title, _detail, _isImportant);
+                    AchievementStore().addAchievement(_title, _detail, _isImportant);
                   }
                   Navigator.of(context).pop(_achievement);
                 },

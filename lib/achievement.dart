@@ -5,17 +5,10 @@ class Achievement {
   late String createDate;
   late String updateDate;
 
-  Achievement(this.title, this.detail, this.isImportant, this.createDate,
-      this.updateDate);
+  Achievement(this.title, this.detail, this.isImportant, this.createDate, this.updateDate);
 
   Map toJson() {
-    return {
-      'title': title,
-      'detail': detail,
-      'isImportant': isImportant,
-      'createDate': createDate,
-      'updateDate': updateDate
-    };
+    return {'title': title, 'detail': detail, 'isImportant': isImportant, 'createDate': createDate, 'updateDate': updateDate};
   }
 
   Achievement.fromJson(Map json) {
