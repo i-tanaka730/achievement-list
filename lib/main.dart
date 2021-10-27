@@ -6,6 +6,8 @@ void main() {
 }
 
 class AchievementListApp extends StatelessWidget {
+  // Keyはデフォルトnull。
+  // Widgetを識別する場合に指定する。
   const AchievementListApp({Key? key}) : super(key: key);
 
   @override

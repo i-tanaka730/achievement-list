@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'achievement.dart';
 import 'package:intl/intl.dart';
 
-class AchievementAddPage extends StatefulWidget {
+class AchievementInputPage extends StatefulWidget {
   final Achievement? targetAchievement;
-  const AchievementAddPage({Key? key, this.targetAchievement}) : super(key: key);
+  const AchievementInputPage({Key? key, this.targetAchievement}) : super(key: key);
 
   @override
-  _AchievementAddPageState createState() => _AchievementAddPageState();
+  _AchievementInputPageState createState() => _AchievementInputPageState();
 }
 
-class _AchievementAddPageState extends State<AchievementAddPage> {
+class _AchievementInputPageState extends State<AchievementInputPage> {
   late Achievement? _achievement;
   late String _title;
   late String _detail;

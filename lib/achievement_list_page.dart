@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'achievement_add_page.dart';
-import 'achievement_storage.dart';
+import 'achievement_input_page.dart';
+import 'achievement_store.dart';
 import 'achievement.dart';
 
 class AchievementListPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class AchievementListPage extends StatefulWidget {
 
 class _AchievementListPageState extends State<AchievementListPage> {
   List<Achievement> _achievementList = [];
-  final AchievementStorage _storage = AchievementStorage();
+  final AchievementStore _store = AchievementStore();
 
   // 追加
   void addAchievement() async {
@@ -23,7 +23,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
       _achievementList.add(achievement);
     });
 
-    _storage.save(_achievementList);
+    _store.save(_achievementList);
   }
 
   // 更新
@@ -32,7 +32,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
 
     setState(() {});
 
-    _storage.save(_achievementList);
+    _store.save(_achievementList);
   }
 
   // 削除
@@ -41,13 +41,13 @@ class _AchievementListPageState extends State<AchievementListPage> {
       _achievementList.removeAt(index);
     });
 
-    _storage.save(_achievementList);
+    _store.save(_achievementList);
   }
 
   Future<Achievement> createAchievement([Achievement? targetAchievement]) async {
     Achievement achievement = await Navigator.of(context).push(
       MaterialPageRoute(builder: (context) {
-        return AchievementAddPage(targetAchievement: targetAchievement);
+        return AchievementInputPage(targetAchievement: targetAchievement);
       }),
     );
 
@@ -62,7 +62,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
   }
 
   void loadAchievementList() async {
-    _achievementList = await _storage.load();
+    _achievementList = await _store.load();
     setState(() {});
   }
 
