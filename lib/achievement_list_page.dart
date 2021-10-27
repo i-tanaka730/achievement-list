@@ -28,11 +28,9 @@ class _AchievementListPageState extends State<AchievementListPage> {
 
   // 更新
   void updateAchievement(int index) async {
-    var achievement = await createAchievement(_achievementList[index]);
+    await createAchievement(_achievementList[index]);
 
-    setState(() {
-      _achievementList[index] = achievement;
-    });
+    setState(() {});
 
     _storage.save(_achievementList);
   }
