@@ -47,8 +47,8 @@ class AchievementStore {
     save();
   }
 
-  void removeAchievement(int index) {
-    _achievementList.removeAt(index);
+  void removeAchievement(Achievement achievement) {
+    _achievementList.remove(achievement);
     save();
   }
 

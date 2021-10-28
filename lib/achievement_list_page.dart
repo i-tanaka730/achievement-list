@@ -65,7 +65,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
                   icon: Icons.delete,
                   onTap: () {
                     setState(() {
-                      _store.removeAchievement(index);
+                      _store.removeAchievement(_store.findByIndex(index));
                     });
                   },
                 )
@@ -76,12 +76,12 @@ class _AchievementListPageState extends State<AchievementListPage> {
                   leading: Text(_store.findByIndex(index).id.toString()),
                   title: Text(_store.findByIndex(index).title),
                   trailing: Checkbox(
+                    value: _store.findByIndex(index).isImportant,
                     onChanged: (bool? value) {
                       setState(() {
                         AchievementStore().updateAchievement(_store.findByIndex(index), value ?? false);
                       });
                     },
-                    value: _store.findByIndex(index).isImportant,
                   ),
                 ),
               ));
