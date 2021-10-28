@@ -27,7 +27,8 @@ class AchievementStore {
 
   void addAchievement(String title, String detail, bool isImportant) {
     var date = _getFormattedDate();
-    var achievement = Achievement(title, detail, isImportant, date, date);
+    var id = countAchievementList() > 0 ? _achievementList.last.id + 1 : 1;
+    var achievement = Achievement(id, title, detail, isImportant, date, date);
     _achievementList.add(achievement);
     save();
   }

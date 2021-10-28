@@ -73,8 +73,8 @@ class _AchievementListPageState extends State<AchievementListPage> {
               child: Container(
                 decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
                 child: ListTile(
+                  leading: Text(_store.findByIndex(index).id.toString()),
                   title: Text(_store.findByIndex(index).title),
-                  subtitle: Text(_store.findByIndex(index).detail),
                   trailing: Text(_store.findByIndex(index).isImportant ? "完了" : "未完了"),
                 ),
               ));
