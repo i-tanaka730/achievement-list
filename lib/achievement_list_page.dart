@@ -47,7 +47,6 @@ class _AchievementListPageState extends State<AchievementListPage> {
         itemCount: _store.countAchievementList(),
         itemBuilder: (context, index) {
           return Slidable(
-              actionExtentRatio: 0.2,
               actionPane: const SlidableScrollActionPane(),
               actions: [
                 IconSlideAction(

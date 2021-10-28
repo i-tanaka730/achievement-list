@@ -11,10 +11,9 @@ class AchievementInputPage extends StatefulWidget {
 }
 
 class _AchievementInputPageState extends State<AchievementInputPage> {
-  late Achievement? _achievement;
+  late bool _isUpdate;
   late String _title;
   late String _detail;
-  late String _caption;
   late bool _isImportant;
   late String _createDate;
   late String _updateDate;
@@ -22,13 +21,13 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
   @override
   void initState() {
     super.initState();
-    _achievement = widget.targetAchievement;
-    _title = _achievement?.title ?? "";
-    _detail = _achievement?.detail ?? "";
-    _caption = _achievement != null ? "更新" : "追加";
-    _isImportant = _achievement?.isImportant ?? false;
-    _createDate = _achievement?.createDate ?? "-";
-    _updateDate = _achievement?.updateDate ?? "-";
+    var achievement = widget.targetAchievement;
+    _isUpdate = achievement != null;
+    _title = achievement?.title ?? "";
+    _detail = achievement?.detail ?? "";
+    _isImportant = achievement?.isImportant ?? false;
+    _createDate = achievement?.createDate ?? "-";
+    _updateDate = achievement?.updateDate ?? "-";
   }
 
   @override
@@ -36,7 +35,7 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("できたこと$_caption"),
+        title: Text(_isUpdate ? "できたこと更新" : "できたこと追加"),
       ),
       body: Container(
         padding: const EdgeInsets.all(64),
@@ -103,14 +102,14 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
               // リスト追加・編集ボタン
               child: ElevatedButton(
                 onPressed: () {
-                  if (_achievement != null) {
-                    AchievementStore().updateAchievement(_achievement!, _title, _detail, _isImportant);
+                  if (_isUpdate) {
+                    AchievementStore().updateAchievement(widget.targetAchievement!, _title, _detail, _isImportant);
                   } else {
                     AchievementStore().addAchievement(_title, _detail, _isImportant);
                   }
-                  Navigator.of(context).pop(_achievement);
+                  Navigator.of(context).pop();
                 },
-                child: Text(_caption, style: const TextStyle(color: Colors.white)),
+                child: Text(_isUpdate ? "更新" : "追加", style: const TextStyle(color: Colors.white)),
               ),
             ),
             const SizedBox(height: 8),
