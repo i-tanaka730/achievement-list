@@ -25,7 +25,7 @@ class AchievementStore {
     return _achievementList[index];
   }
 
-  void addAchievement(String title, String detail, bool isImportant) {
+  void addAchievement(bool isImportant, String title, String detail) {
     var date = _getFormattedDate();
     var id = countAchievementList() > 0 ? _achievementList.last.id + 1 : 1;
     var achievement = Achievement(id, title, detail, isImportant, date, date);
@@ -33,9 +33,14 @@ class AchievementStore {
     save();
   }
 
-  void updateAchievement(Achievement achievement, String title, String detail, bool isImportant) {
-    achievement.title = title;
-    achievement.detail = detail;
+  void updateAchievement(Achievement achievement, bool isImportant, [String? title, String? detail]) {
+    if (title != null) {
+      achievement.title = title;
+    }
+    if (detail != null) {
+      achievement.detail = detail;
+    }
+
     achievement.isImportant = isImportant;
     var date = _getFormattedDate();
     achievement.updateDate = date;

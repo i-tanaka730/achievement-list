@@ -75,7 +75,14 @@ class _AchievementListPageState extends State<AchievementListPage> {
                 child: ListTile(
                   leading: Text(_store.findByIndex(index).id.toString()),
                   title: Text(_store.findByIndex(index).title),
-                  trailing: Text(_store.findByIndex(index).isImportant ? "完了" : "未完了"),
+                  trailing: Checkbox(
+                    onChanged: (bool? value) {
+                      setState(() {
+                        AchievementStore().updateAchievement(_store.findByIndex(index), value ?? false);
+                      });
+                    },
+                    value: _store.findByIndex(index).isImportant,
+                  ),
                 ),
               ));
         },

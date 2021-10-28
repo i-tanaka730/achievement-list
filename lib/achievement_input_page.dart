@@ -102,9 +102,9 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_isUpdate) {
-                    AchievementStore().updateAchievement(widget.targetAchievement!, _title, _detail, _isImportant);
+                    AchievementStore().updateAchievement(widget.targetAchievement!, _isImportant, _title, _detail);
                   } else {
-                    AchievementStore().addAchievement(_title, _detail, _isImportant);
+                    AchievementStore().addAchievement(_isImportant, _title, _detail);
                   }
                   Navigator.of(context).pop();
                 },
