@@ -38,15 +38,12 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
         title: Text(_isUpdate ? "できたこと更新" : "できたこと追加"),
       ),
       body: Container(
-        padding: const EdgeInsets.all(64),
+        padding: const EdgeInsets.all(30),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("作成日：$_createDate", textAlign: TextAlign.left),
-            Text("更新日：$_updateDate", textAlign: TextAlign.left),
             CheckboxListTile(
-              title: const Text("重要度", textAlign: TextAlign.left),
+              title: const Text("重要度"),
               value: _isImportant,
               onChanged: (bool? value) {
                 setState(() {
@@ -54,10 +51,11 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
                 });
               },
             ),
-            const Text("タイトル", textAlign: TextAlign.left),
+            const SizedBox(height: 20),
             TextField(
               autofocus: true,
               decoration: const InputDecoration(
+                labelText: "タイトル",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.blue,
@@ -74,12 +72,13 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
                 _title = value;
               },
             ),
-            const Text("詳細"),
+            const SizedBox(height: 20),
             TextField(
               keyboardType: TextInputType.multiline,
               maxLines: null,
               minLines: 3,
               decoration: const InputDecoration(
+                labelText: "詳細",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.blue,
@@ -96,7 +95,7 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
                 _detail = value;
               },
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               // リスト追加・編集ボタン
@@ -112,7 +111,7 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
                 child: Text(_isUpdate ? "更新" : "追加", style: const TextStyle(color: Colors.white)),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
             SizedBox(
               width: double.infinity,
               // キャンセルボタン
@@ -126,6 +125,9 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
                 child: const Text('キャンセル', style: TextStyle(color: Colors.white)),
               ),
             ),
+            const SizedBox(height: 30),
+            Text("作成日：$_createDate"),
+            Text("更新日：$_updateDate"),
           ],
         ),
       ),
