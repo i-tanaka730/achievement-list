@@ -120,9 +120,12 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
+                  primary: Colors.white,
+                  side: const BorderSide(
+                    color: Colors.blue,
+                  ),
                 ),
-                child: const Text('キャンセル', style: TextStyle(color: Colors.white)),
+                child: const Text('キャンセル', style: TextStyle(color: Colors.blue)),
               ),
             ),
             const SizedBox(height: 30),
