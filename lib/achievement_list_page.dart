@@ -46,6 +46,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
       body: ListView.builder(
         itemCount: _store.countAchievementList(),
         itemBuilder: (context, index) {
+          var achievement = _store.findByIndex(index);
           return Slidable(
               actionPane: const SlidableScrollActionPane(),
               actions: [
@@ -54,7 +55,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
                   color: Colors.yellow,
                   icon: Icons.edit,
                   onTap: () {
-                    pushAchievementInputPage(_store.findByIndex(index));
+                    pushAchievementInputPage(achievement);
                   },
                 )
               ],
@@ -65,7 +66,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
                   icon: Icons.delete,
                   onTap: () {
                     setState(() {
-                      _store.removeAchievement(_store.findByIndex(index));
+                      _store.removeAchievement(achievement);
                     });
                   },
                 )
@@ -73,13 +74,13 @@ class _AchievementListPageState extends State<AchievementListPage> {
               child: Container(
                 decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
                 child: ListTile(
-                  leading: Text(_store.findByIndex(index).id.toString()),
-                  title: Text(_store.findByIndex(index).title),
+                  leading: Text(achievement.id.toString()),
+                  title: Text(achievement.title),
                   trailing: Checkbox(
-                    value: _store.findByIndex(index).isImportant,
+                    value: achievement.isImportant,
                     onChanged: (bool? value) {
                       setState(() {
-                        AchievementStore().updateAchievement(_store.findByIndex(index), value ?? false);
+                        AchievementStore().updateAchievement(achievement, value ?? false);
                       });
                     },
                   ),
