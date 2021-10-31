@@ -7,15 +7,17 @@ class AchievementStore {
   List<Achievement> _achievementList = [];
   final String _saveKey = "Achievement";
 
-  static final AchievementStore _cache = AchievementStore._internal();
+  static final AchievementStore _instance = AchievementStore._internal();
 
-  // オブジェクトを常に作成するのではなく、もしキャッシュがあればそれを使う
-  factory AchievementStore() {
-    return _cache;
-  }
-
-  // コンストラクタをプライベートアクセスにしている
+  // クラス名に._xxxでプライベートコンストラクタとなる
   AchievementStore._internal();
+
+  // ファクトリーコンストラクタ
+  // インスタンスを生成しないコンストラクタのため、自分でインスタンスを生成する
+  factory AchievementStore() {
+    // オブジェクトを常に作成するのではなく、もしキャッシュがあればそれを使う
+    return _instance;
+  }
 
   int countAchievementList() {
     return _achievementList.length;
@@ -59,14 +61,16 @@ class AchievementStore {
   }
 
   void save() async {
-    var targetAchievementList = _achievementList.map((f) => json.encode(f.toJson())).toList();
     var prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(_saveKey, targetAchievementList);
+    // AchievementList形式 → Map形式 → JSON形式 → StrigList形式
+    var saveTargetAchievementList = _achievementList.map((a) => json.encode(a.toJson())).toList();
+    prefs.setStringList(_saveKey, saveTargetAchievementList);
   }
 
   void load() async {
     var prefs = await SharedPreferences.getInstance();
-    var result = prefs.getStringList(_saveKey) ?? [];
-    _achievementList = result.map((f) => Achievement.fromJson(json.decode(f))).toList();
+    // StrigList形式 → JSON形式 → Map形式 → AchievementList形式
+    var loadTargetAchievementList = prefs.getStringList(_saveKey) ?? [];
+    _achievementList = loadTargetAchievementList.map((a) => Achievement.fromJson(json.decode(a))).toList();
   }
 }
