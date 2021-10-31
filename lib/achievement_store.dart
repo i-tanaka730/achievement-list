@@ -19,7 +19,7 @@ class AchievementStore {
     return _instance;
   }
 
-  int countAchievementList() {
+  int count() {
     return _achievementList.length;
   }
 
@@ -27,15 +27,15 @@ class AchievementStore {
     return _achievementList[index];
   }
 
-  void addAchievement(bool isImportant, String title, String detail) {
+  void add(bool isImportant, String title, String detail) {
     var date = _getFormattedDate();
-    var id = countAchievementList() > 0 ? _achievementList.last.id + 1 : 1;
+    var id = count() > 0 ? _achievementList.last.id + 1 : 1;
     var achievement = Achievement(id, title, detail, isImportant, date, date);
     _achievementList.add(achievement);
     save();
   }
 
-  void updateAchievement(Achievement achievement, bool isImportant, [String? title, String? detail]) {
+  void update(Achievement achievement, bool isImportant, [String? title, String? detail]) {
     if (title != null) {
       achievement.title = title;
     }
@@ -49,15 +49,9 @@ class AchievementStore {
     save();
   }
 
-  void removeAchievement(Achievement achievement) {
+  void delete(Achievement achievement) {
     _achievementList.remove(achievement);
     save();
-  }
-
-  String _getFormattedDate() {
-    var outputFormat = DateFormat('yyyy/MM/dd HH:mm');
-    var dateTime = outputFormat.format(DateTime.now());
-    return dateTime;
   }
 
   void save() async {
@@ -72,5 +66,11 @@ class AchievementStore {
     // StrigList形式 → JSON形式 → Map形式 → AchievementList形式
     var loadTargetAchievementList = prefs.getStringList(_saveKey) ?? [];
     _achievementList = loadTargetAchievementList.map((a) => Achievement.fromJson(json.decode(a))).toList();
+  }
+
+  String _getFormattedDate() {
+    var outputFormat = DateFormat('yyyy/MM/dd HH:mm');
+    var dateTime = outputFormat.format(DateTime.now());
+    return dateTime;
   }
 }

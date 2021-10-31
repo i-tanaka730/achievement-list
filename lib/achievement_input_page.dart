@@ -11,6 +11,7 @@ class AchievementInputPage extends StatefulWidget {
 }
 
 class _AchievementInputPageState extends State<AchievementInputPage> {
+  final AchievementStore _store = AchievementStore();
   late bool _isUpdate;
   late String _title;
   late String _detail;
@@ -102,9 +103,9 @@ class _AchievementInputPageState extends State<AchievementInputPage> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_isUpdate) {
-                    AchievementStore().updateAchievement(widget.targetAchievement!, _isImportant, _title, _detail);
+                    _store.update(widget.targetAchievement!, _isImportant, _title, _detail);
                   } else {
-                    AchievementStore().addAchievement(_isImportant, _title, _detail);
+                    _store.add(_isImportant, _title, _detail);
                   }
                   Navigator.of(context).pop();
                 },

@@ -44,7 +44,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
         ),
       ),
       body: ListView.builder(
-        itemCount: _store.countAchievementList(),
+        itemCount: _store.count(),
         itemBuilder: (context, index) {
           var achievement = _store.findByIndex(index);
           return Slidable(
@@ -66,7 +66,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
                   icon: Icons.delete,
                   onTap: () {
                     setState(() {
-                      _store.removeAchievement(achievement);
+                      _store.delete(achievement);
                     });
                   },
                 )
@@ -80,7 +80,7 @@ class _AchievementListPageState extends State<AchievementListPage> {
                     value: achievement.isImportant,
                     onChanged: (bool? value) {
                       setState(() {
-                        AchievementStore().updateAchievement(achievement, value ?? false);
+                        AchievementStore().update(achievement, value ?? false);
                       });
                     },
                   ),
