@@ -12,6 +12,7 @@ class Achievement {
     return {'id': id, 'title': title, 'detail': detail, 'isImportant': isImportant, 'createDate': createDate, 'updateDate': updateDate};
   }
 
+  // 名前付きコンストラクタ
   Achievement.fromJson(Map json) {
     id = json['id'];
     title = json['title'];
